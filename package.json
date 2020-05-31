@@ -1,6 +1,6 @@
 {
-	"name": "make-chrome-extension",
-	"version": "1.0.0",
+	"name": "create-chrome-x",
+	"version": "0.0.1",
 	"description": "Quickly bootstrap a chrome extension",
 	"main": "index.js",
 	"scripts": {
