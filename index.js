@@ -19,11 +19,27 @@ if (fs.readdirSync(currentDirectory).length !== 0) {
 
 const chromeFilesPath = path.join(path.dirname(fs.realpathSync(__filename)), 'chrome-files')
 
-fs.readdirSync(chromeFilesPath).forEach((fileName) => {
-	const src = path.join(chromeFilesPath, fileName)
-	const destination = path.join(currentDirectory, fileName)
+function copyDirContents(sourceDirectory, destinationDirectory) {
+	if (!fs.existsSync(sourceDirectory) || !fs.existsSync(destinationDirectory)) {
+		console.error('Fatal error. Source and/or destination directory does not exist')
+		process.exit(1)
+	}
+	fs.readdirSync(sourceDirectory).forEach((fileName) => {
+		console.log('Creating ' + fileName + '...')
+		const src = path.join(sourceDirectory, fileName)
+		const destination = path.join(destinationDirectory, fileName)
 
-	fs.copyFileSync(src, destination)
-})
+		const isSourceFolder = fs.lstatSync(src).isDirectory()
+
+		if (isSourceFolder) {
+			fs.mkdirSync(destination)
+			copyDirContents(src, destination)
+		} else {
+			fs.copyFileSync(src, destination)
+		}
+	})
+}
+
+copyDirContents(chromeFilesPath, currentDirectory)
 
 console.log('Chrome extension initialized!')
