@@ -5,7 +5,7 @@ const path = require('path')
 
 const currentDirectory = process.cwd()
 
-console.log(currentDirectory)
+console.log('Initializing an empty chrome extension in ' + currentDirectory)
 
 if (!fs.existsSync(currentDirectory)) {
 	console.warn('Specified directory does not exist')
